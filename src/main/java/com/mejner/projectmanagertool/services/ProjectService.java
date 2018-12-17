@@ -13,13 +13,16 @@ public class ProjectService {
     private ProjectRepository projectRepository;
 
     public Project saveOrUpdateProject(Project project){
-
         try{
             project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
             return projectRepository.save(project);
         }catch (Exception e){
+            /*check id projectId is unique, if not, throw exception*/
             throw new ProjectIdException("Projekt o ID '" + project.getProjectIdentifier().toUpperCase() + "' juz istnieje");
         }
+    }
 
+    public Project findProjectByIdentifier(String projectId){
+        return projectRepository.findByProjectIdentifier(projectId);
     }
 }
