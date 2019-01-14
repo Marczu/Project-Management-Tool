@@ -1,7 +1,9 @@
 package com.mejner.projectmanagertool.services;
 
+import com.mejner.projectmanagertool.domain.Backlog;
 import com.mejner.projectmanagertool.domain.Project;
 import com.mejner.projectmanagertool.exceptions.ProjectIdException;
+import com.mejner.projectmanagertool.repositories.BacklogRepository;
 import com.mejner.projectmanagertool.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,9 +14,24 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private BacklogRepository backlogRepository;
+
     public Project saveOrUpdateProject(Project project){
         try{
             project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+
+            if(project.getId() == null){
+                Backlog backlog = new Backlog();
+                project.setBacklog(backlog);
+                backlog.setProject(project);
+                backlog.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+            }
+
+            if(project.getId() != null){
+                project.setBacklog(backlogRepository.findByProjectIdentifier(project.getProjectIdentifier().toUpperCase()));
+            }
+
             return projectRepository.save(project);
         }catch (Exception e){
             /*check id projectId is unique, if not, throw exception*/
