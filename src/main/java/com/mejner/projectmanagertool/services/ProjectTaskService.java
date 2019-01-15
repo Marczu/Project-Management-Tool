@@ -25,6 +25,7 @@ public class ProjectTaskService {
         //sequence is projectidentifier-PTSequence, for example ABCD-1 ABCD-2
         Integer backlogSequence = backlog.getPTSequence();
         backlogSequence++;
+        backlog.setPTSequence(backlogSequence);
 
         //add Sequence to projectTask
         projectTask.setProjectSequence(projectIdentifier + "-" + backlogSequence);
@@ -32,7 +33,7 @@ public class ProjectTaskService {
         projectTask.setProjectIdentifier(projectIdentifier);
 
         //SET initial priority when is null
-        if(projectTask.getPriority() == 0 || projectTask.getPriority() == null){
+        if(projectTask.getPriority() == null){
             projectTask.setPriority(3);
         }
 
