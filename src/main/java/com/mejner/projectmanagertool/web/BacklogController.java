@@ -57,4 +57,13 @@ public class BacklogController {
 
         return new ResponseEntity<>(updateTask, HttpStatus.OK);
     }
+
+    @DeleteMapping("/{backlog_id}/{pt_id}")
+    public ResponseEntity<?> deleteProjectTask(@PathVariable String backlog_id, @PathVariable String pt_id){
+
+        projectTaskService.deletePTByProjectSequence(backlog_id, pt_id);
+
+        return new ResponseEntity<String>("Zadanie projektu " + pt_id + " zostało usunięte", HttpStatus.OK);
+    }
+
 }
