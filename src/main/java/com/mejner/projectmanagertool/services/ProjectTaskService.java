@@ -42,13 +42,13 @@ public class ProjectTaskService {
             projectTask.setProjectIdentifier(projectIdentifier);
 
             //SET initial priority when is null
-            if(projectTask.getPriority() == null){
+            if(projectTask.getPriority() == 0 || projectTask.getPriority() == null){
                 projectTask.setPriority(3);
             }
 
             //SET initial status when is null
             if(projectTask.getStatus() == "" || projectTask.getStatus() == null) {
-                projectTask.setStatus("TO_DO");
+                projectTask.setStatus("DO ZROBIENIA");
             }
 
             return projectTaskRepository.save(projectTask);
