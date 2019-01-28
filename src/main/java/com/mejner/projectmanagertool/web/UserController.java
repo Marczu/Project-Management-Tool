@@ -3,6 +3,7 @@ package com.mejner.projectmanagertool.web;
 import com.mejner.projectmanagertool.domain.User;
 import com.mejner.projectmanagertool.services.MapValidationErrorService;
 import com.mejner.projectmanagertool.services.UserService;
+import com.mejner.projectmanagertool.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +25,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserValidator userValidator;
+
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result){
-        //Validate password match
+
+        //Validate password match and lenght
+        userValidator.validate(user, result);
 
         ResponseEntity<?> errorMap = mapValidationErrorService.mapValidationService(result);
         if(errorMap != null){
@@ -37,5 +43,4 @@ public class UserController {
 
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }
-
 }

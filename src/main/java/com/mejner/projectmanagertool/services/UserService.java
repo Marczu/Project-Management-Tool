@@ -22,6 +22,9 @@ public class UserService {
             newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
             newUser.setUsername(newUser.getUsername());
 
+            //Dont persist confirPass to db
+            newUser.setConfirmPassword("");
+
             return userRepository.save(newUser);
 
         }catch (Exception e){
