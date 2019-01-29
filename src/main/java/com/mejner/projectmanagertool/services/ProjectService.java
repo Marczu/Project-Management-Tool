@@ -30,6 +30,8 @@ public class ProjectService {
 
             if (existingProject != null && (!existingProject.getProjectLeader().equals(username))) {
                 throw new ProjectNotFoundException("Nie znaleziono projektu na Twoim koncie");
+            }else if(existingProject == null){
+                throw new ProjectNotFoundException("Projekt o ID: '" + project.getProjectIdentifier() + "' nie moze zostać uaktualniony, ponieważ projekt nie istnieje");
             }
         }
 
