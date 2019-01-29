@@ -2,9 +2,11 @@ package com.mejner.projectmanagertool.services;
 
 import com.mejner.projectmanagertool.domain.Backlog;
 import com.mejner.projectmanagertool.domain.Project;
+import com.mejner.projectmanagertool.domain.User;
 import com.mejner.projectmanagertool.exceptions.ProjectIdException;
 import com.mejner.projectmanagertool.repositories.BacklogRepository;
 import com.mejner.projectmanagertool.repositories.ProjectRepository;
+import com.mejner.projectmanagertool.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +19,16 @@ public class ProjectService {
     @Autowired
     private BacklogRepository backlogRepository;
 
-    public Project saveOrUpdateProject(Project project){
+    @Autowired
+    private UserRepository userRepository;
+
+    public Project saveOrUpdateProject(Project project, String username){
         try{
+
+            User user = userRepository.findByUsername(username);
+
+            project.setUser(user);
+            project.setProjectLeader(user.getUsername());
             project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
 
             if(project.getId() == null){
