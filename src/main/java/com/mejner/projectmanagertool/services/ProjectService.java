@@ -4,6 +4,7 @@ import com.mejner.projectmanagertool.domain.Backlog;
 import com.mejner.projectmanagertool.domain.Project;
 import com.mejner.projectmanagertool.domain.User;
 import com.mejner.projectmanagertool.exceptions.ProjectIdException;
+import com.mejner.projectmanagertool.exceptions.ProjectNotFoundException;
 import com.mejner.projectmanagertool.repositories.BacklogRepository;
 import com.mejner.projectmanagertool.repositories.ProjectRepository;
 import com.mejner.projectmanagertool.repositories.UserRepository;
@@ -49,7 +50,7 @@ public class ProjectService {
         }
     }
 
-    public Project findProjectByIdentifier(String projectId){
+    public Project findProjectByIdentifier(String projectId, String username){
 
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
 
@@ -58,11 +59,15 @@ public class ProjectService {
             throw new ProjectIdException("Projekt o ID '" + projectId.toUpperCase() + "' nie istnieje");
         }
 
+        if(!project.getProjectLeader().equals(username)){
+            throw new ProjectNotFoundException("Nie znaleziono projektu na tym koncie");
+        }
+
         return project;
     }
 
-    public Iterable<Project> findAllProjects(){
-        Iterable<Project> allProjects = projectRepository.findAll();
+    public Iterable<Project> findAllProjects(String username){
+        Iterable<Project> allProjects = projectRepository.findAllByProjectLeader(username);
 
         return allProjects;
     }
