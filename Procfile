@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -jar target/project-manager-tool.jar -Dserver.port=$PORT $JAR_OPTS

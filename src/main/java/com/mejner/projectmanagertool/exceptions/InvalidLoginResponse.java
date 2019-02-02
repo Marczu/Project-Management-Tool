@@ -6,8 +6,8 @@ public class InvalidLoginResponse {
     private String password;
 
     public InvalidLoginResponse() {
-        this.username = "Nieprawidłowa nazwa uzytkownika";
-        this.password = "Nieprawidłowe hasło";
+        this.username = "Nieprawidlowa nazwa uzytkownika";
+        this.password = "Nieprawidlowe haslo";
     }
 
     public String getUsername() {
